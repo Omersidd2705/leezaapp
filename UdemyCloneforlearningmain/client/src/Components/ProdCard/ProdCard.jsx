@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import Rating from "@mui/material/Rating";
 import "./prod.css";
-import React from "react";
+// import React from "react";
 import { MultiItemCarousel } from "../MultiCarousel/MultiItemCarousel";
 import { LightTooltip } from "../LandingPage/Landin";
 import { PopperCard } from "./popperprodcard";
 // export const PopperCard = React.forwardRef(function PopperCard(props, ref) {
+  import React, { useState } from "react";
 
 export const ProdCard = React.forwardRef(function ProdCard(props, ref) {
   //  Spread the props to the underlying DOM element.
@@ -123,15 +124,34 @@ export const TechCard = () => {
 
 export const SuggestionCard = ({ title, data, category }) => {
   let products = data.filter((el) => el.category === category);
+  console.log(products);
+  const [currentSlide, setCurrentSlide] = useState(0);
+const slide = (direction) => {
+  const newSlide = currentSlide + direction;
+  const maxSlides = Math.ceil(products.length / 5) - 1; // Adjust based on the number of visible items
+  if (newSlide < 0) {
+    setCurrentSlide(0);
+  } else if (newSlide > maxSlides) {
+    setCurrentSlide(maxSlides);
+  } else {
+    setCurrentSlide(newSlide);
+  }
+};
 
-  return (
-    <div className="tec-cont">
-      <div>
-        <h2>{title}</h2>
+const slideStyle = {
+  transform: `translateX(-${currentSlide * (100 / 5)}%)`,
+};
+
+
+return (
+  <div className="tec-cont">
+    <div>
+      <h2>{title}</h2>
+      <div className="prod-cont-wrapper">
         <div className="prod-cont">
-          {/* <MultiItemCarousel> Students are viewing */}
           {products.map((el) => (
             <LightTooltip
+              key={el.id} // Ensure you have a unique key for each element
               arrow
               placement="right"
               title={<PopperCard data={el} />}
@@ -139,9 +159,12 @@ export const SuggestionCard = ({ title, data, category }) => {
               <ProdCard data={el} />
             </LightTooltip>
           ))}
-          {/* </MultiItemCarousel> */}
+          <button className="prod-cont-slide left" onClick={() => slide(-1)}>‹</button>
+          <button className="prod-cont-slide right" onClick={() => slide(1)}>›</button>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
+
 };

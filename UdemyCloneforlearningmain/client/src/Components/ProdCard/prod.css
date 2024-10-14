@@ -13,6 +13,31 @@
 .prodimg {
   max-width: 100%;
 }
+/* Media Queries for responsiveness */
+
+/* For tablet screens (min-width: 768px) */
+@media (min-width: 768px) {
+  .prodcard {
+    width: 58%; /* Show two cards per row on medium-sized screens */
+    max-width: 100%;
+  }
+}
+
+/* For larger screens (min-width: 1024px) */
+@media (min-width: 1024px) {
+  .prodcard {
+    width: 51%; /* Show three cards per row on large screens */
+    max-width: 100%;
+  }
+}
+
+/* For extra-large screens (min-width: 1440px) */
+@media (min-width: 1440px) {
+  .prodcard {
+    width: 53%; /* Show four cards per row on very large screens */
+    max-width: 100%;
+  }
+}
 .card-title {
   margin-top: 0rem;
   line-height: 1.1;
@@ -63,13 +88,37 @@
 }
 .prod-cont {
   display: grid;
-  display: grid;
-  grid-auto-columns: max-content;
+  grid-template-columns: repeat(5, 1fr);
   grid-auto-flow: column;
   grid-gap: 1.6rem;
-  grid-auto-columns: calc((100% - (5 - 1) * 1.6rem) / 5);
   overflow-x: hidden;
+  scroll-behavior: smooth; /* Smooth scroll effect */
+  transition: transform 0.5s ease-in-out; /* Add smooth sliding */
+  will-change: transform; /* Optimizes performance */
 }
+
+.prod-cont-wrapper {
+  overflow: hidden; /* This ensures the wrapper hides overflow */
+  position: relative;
+  width: 100%; /* Set a specific width if necessary */
+}
+.prod-cont-slide {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 0.5rem;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.prod-cont-slide.right {
+  right: 0;
+  left: auto;
+}
+
 .tec-cont {
   /* border: 2px solid black; */
   width: 100%;
